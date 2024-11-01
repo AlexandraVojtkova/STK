@@ -1,0 +1,51 @@
+package sk.umb.systemSTK.persistent.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Date;
+
+@Entity(name = "EK")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class EK {
+    @Id
+    private Long VINEK;
+
+    @Column(unique=true)
+    private Date date;
+
+    @Column(unique=true)
+    private String controlType;
+
+    @Column(unique=true)
+    private String evaluationOfVehicle;
+
+    @Column(unique=true)
+    private String ECV;
+
+    @Column(unique=true)
+    private String category;
+
+    @Column(unique=true)
+    private String brand;
+
+    @Column(unique=true)
+    private String model;
+
+    @Column(unique=true)
+    private String systemOfEmissions;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Technician idOfTechnician;
+
+    @Column(unique=true)
+    private int price;
+
+}
