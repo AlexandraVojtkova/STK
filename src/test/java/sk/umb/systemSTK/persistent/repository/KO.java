@@ -1,6 +1,7 @@
 package sk.umb.systemSTK.persistent.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface KO extends CrudRepository<sk.umb.systemSTK.persistent.entity.KO, Long> {
+public interface KO extends JpaRepository<sk.umb.systemSTK.persistent.entity.KO, Long>, JpaSpecificationExecutor<sk.umb.systemSTK.persistent.entity.KO> {
 }
