@@ -13,9 +13,9 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TK {
+public class KOEntity {
     @Id
-    private Long VINTK;
+    private Long VINKO;
 
     @Column(unique=true)
     private Date date;
@@ -24,24 +24,12 @@ public class TK {
     private String controlType;
 
     @Column(unique=true)
-    private String EvaluationOfVehicle;
-
-    @Column(unique=true)
-    private String ECV;
-
-    @Column(unique=true)
     private String category;
-
-    @Column(unique=true)
-    private String brand;
-
-    @Column(unique=true)
-    private String model;
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Technician idOfTechnician;
+    private TechnicianEntity idOfTechnician;
 
     @Column(unique=true)
-    private int price;
+    private String price;
 }

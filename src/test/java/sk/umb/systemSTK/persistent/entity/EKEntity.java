@@ -8,14 +8,14 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Entity
+@Entity(name = "EK")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class KO {
+public class EKEntity {
     @Id
-    private Long VINKO;
+    private Long VINEK;
 
     @Column(unique=true)
     private Date date;
@@ -24,12 +24,28 @@ public class KO {
     private String controlType;
 
     @Column(unique=true)
+    private String evaluationOfVehicle;
+
+    @Column(unique=true)
+    private String ECV;
+
+    @Column(unique=true)
     private String category;
+
+    @Column(unique=true)
+    private String brand;
+
+    @Column(unique=true)
+    private String model;
+
+    @Column(unique=true)
+    private String systemOfEmissions;
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Technician idOfTechnician;
+    private TechnicianEntity idOfTechnician;
 
     @Column(unique=true)
-    private String price;
+    private int price;
+
 }

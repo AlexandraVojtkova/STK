@@ -2,6 +2,7 @@ package sk.umb.systemSTK.persistent.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import sk.umb.systemSTK.persistent.entity.UserEntity;
 
-public interface Technician extends JpaRepository<sk.umb.systemSTK.persistent.entity.Technician, Long>, JpaSpecificationExecutor<sk.umb.systemSTK.persistent.entity.Technician> {
+public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 }

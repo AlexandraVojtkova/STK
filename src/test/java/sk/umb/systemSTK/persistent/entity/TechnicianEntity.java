@@ -6,16 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Technician {
+public class TechnicianEntity {
     @Id
     private Long technicianId;
 
@@ -27,17 +25,17 @@ public class Technician {
 
     @OneToMany
     @JoinColumn
-    private List<EK> ekList;
+    private List<EKEntity> ekList;
 
 
     @OneToMany
     @JoinColumn
-    private List<KO> koList;
+    private List<KOEntity> koList;
 
 
     @OneToMany
     @JoinColumn
-    private List<TK> tkList;
+    private List<TKEntity> tkList;
 
     @ManyToOne
     @JoinTable(
@@ -45,6 +43,6 @@ public class Technician {
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "technicianId")
     )
-    private User user;
+    private UserEntity user;
 
 }

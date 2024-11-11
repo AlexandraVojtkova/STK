@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -26,5 +26,5 @@ public class User {
     private String password;
 
     @OneToMany
-    private Set<Technician> technicians = new HashSet<Technician>();
+    private Set<TechnicianEntity> technicians = new HashSet<TechnicianEntity>();
 }
