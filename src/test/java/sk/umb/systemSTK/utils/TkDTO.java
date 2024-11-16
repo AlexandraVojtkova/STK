@@ -19,6 +19,6 @@ public class TkDTO {
     String category;
     String brand;
     String model;
-    TechnicianDTO technician;
+    String technicianId;
     int price;
 }

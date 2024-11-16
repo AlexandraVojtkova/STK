@@ -19,6 +19,6 @@ public class EkDTO {
     String brand;
     String model;
     String systemOfEmmission;
-    TechnicianDTO technician;
+    String technicianId;
     int price;
 }
