@@ -19,6 +19,6 @@ public class TkDTO {
     String category;
     String brand;
     String model;
-    String technicianId;
+    Long technicianId;
     int price;
 }

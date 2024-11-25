@@ -15,6 +15,6 @@ public class KoDTO {
     Date date;
     String controlType;
     String category;
-    String technicianId;
+    Long technicianId;
     String price;
 }
