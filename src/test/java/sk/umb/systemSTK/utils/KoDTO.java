@@ -11,10 +11,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KoDTO {
-    Long id;
+    String id;
     Date date;
     String controlType;
     String category;
     Long technicianId;
-    String price;
+    Float price;
 }

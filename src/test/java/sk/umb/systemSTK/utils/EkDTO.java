@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EkDTO {
-    Long id;
+    String id;
     Date date;
     String controlType;
     String evaluationOfVehicle;
@@ -20,5 +20,5 @@ public class EkDTO {
     String model;
     String systemOfEmmission;
     Long technicianId;
-    int price;
+    Float price;
 }

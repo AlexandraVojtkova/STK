@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TkDTO {
-    Long id;
+    String id;
     Date date;
     String controlType;
     String evaluationOfVehicle;
@@ -20,5 +20,5 @@ public class TkDTO {
     String brand;
     String model;
     Long technicianId;
-    int price;
+    Float price;
 }

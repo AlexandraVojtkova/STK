@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class EKEntity {
     @Id
-    private Long VINEK;
+    private String VINEK;
 
     @Column(unique=true)
     private Date date;
