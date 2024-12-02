@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class KOEntity {
     @Id
-    private Long VINKO;
+    private String VINKO;
 
     @Column(unique=true)
     private Date date;
@@ -31,5 +31,5 @@ public class KOEntity {
     private TechnicianEntity idOfTechnician;
 
     @Column(unique=true)
-    private String price;
+    private Float price;
 }

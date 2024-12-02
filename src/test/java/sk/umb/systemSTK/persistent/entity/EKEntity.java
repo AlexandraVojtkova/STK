@@ -46,6 +46,6 @@ public class EKEntity {
     private TechnicianEntity idOfTechnician;
 
     @Column(unique=true)
-    private int price;
+    private Float price;
 
 }
