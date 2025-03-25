@@ -8,6 +8,7 @@ import sk.umb.systemSTK.persistent.repository.TechnicianRepository;
 import sk.umb.systemSTK.persistent.repository.UserRepository;
 import sk.umb.systemSTK.utils.EkDTO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,22 +26,23 @@ public class EKService {
     private TechnicianRepository technicianRepository;
 
     public List<EkDTO> getAllEk() {
-        List<EkDTO> allEk = ekRepository.findAll();
-        allEk.stream().map(
-                entity -> new EkDTO(
-                        entity.getId(),
-                        entity.getDate(),
-                        entity.getControlType(),
-                        entity.getEvaluationOfVehicle(),
-                        entity.getECV(),
-                        entity.getCategory(),
-                        entity.getBrand(),
-                        entity.getModel(),
-                        entity.getSystemOfEmmission(),
-                        entity.getTechnicianId(),
-                        entity.getPrice()
-                )
-        ).collect(Collectors.toList());
+        List<EkDTO> allEk = new ArrayList<>();
+
+        for (EKEntity ekEntity : ekRepository.findAll()) {
+            EkDTO ekDTO = new EkDTO();
+            ekDTO.setId(ekEntity.getVINEK());
+            ekDTO.setDate(ekEntity.getDate());
+            ekDTO.setControlType(ekEntity.getControlType());
+            ekDTO.setEvaluationOfVehicle(ekEntity.getEvaluationOfVehicle());
+            ekDTO.setECV(ekEntity.getECV());
+            ekDTO.setCategory(ekEntity.getCategory());
+            ekDTO.setBrand(ekEntity.getBrand());
+            ekDTO.setModel(ekEntity.getModel());
+            ekDTO.setSystemOfEmmission(ekEntity.getSystemOfEmissions());
+            ekDTO.setTechnicianId(ekEntity.getIdOfTechnician().getTechnicianId());
+            ekDTO.setPrice(ekEntity.getPrice());
+            allEk.add(ekDTO);
+        }
         return allEk;
     }
 
@@ -81,5 +83,23 @@ public class EKService {
             ekDTO.setTechnicianId(ekEntity.getIdOfTechnician().getTechnicianId());
             return ekDTO;
         }).orElse(null);
+    }
+
+    public void putEK(Long technicianId, EkDTO ekDTO) {
+
+        EKEntity ekEntity = ekRepository.findById(technicianId).get();
+        if (ekEntity != null) {
+            ekEntity.setVINEK(ekDTO.getId());
+            ekEntity.setDate(ekDTO.getDate());
+            ekEntity.setControlType(ekDTO.getControlType());
+            ekEntity.setEvaluationOfVehicle(ekDTO.getEvaluationOfVehicle());
+            ekEntity.setECV(ekDTO.getECV());
+            ekEntity.setCategory(ekDTO.getCategory());
+            ekEntity.setBrand(ekDTO.getBrand());
+            ekEntity.setModel(ekDTO.getModel());
+            ekEntity.setSystemOfEmissions(ekDTO.getSystemOfEmmission());
+            ekEntity.setPrice(ekDTO.getPrice());
+            ekRepository.save(ekEntity);
+        }
     }
 }
