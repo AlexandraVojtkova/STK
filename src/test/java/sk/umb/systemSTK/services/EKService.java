@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EKService {
@@ -39,7 +38,7 @@ public class EKService {
             ekDTO.setBrand(ekEntity.getBrand());
             ekDTO.setModel(ekEntity.getModel());
             ekDTO.setSystemOfEmmission(ekEntity.getSystemOfEmissions());
-            ekDTO.setTechnicianId(ekEntity.getIdOfTechnician().getTechnicianId());
+            ekDTO.setTechnicianId(ekEntity.getTechnician().getTechnicianId());
             ekDTO.setPrice(ekEntity.getPrice());
             allEk.add(ekDTO);
         }
@@ -80,7 +79,7 @@ public class EKService {
             ekDTO.setBrand(ekEntity.getBrand());
             ekDTO.setModel(ekEntity.getModel());
             ekDTO.setSystemOfEmmission(ekEntity.getSystemOfEmissions());
-            ekDTO.setTechnicianId(ekEntity.getIdOfTechnician().getTechnicianId());
+            ekDTO.setTechnicianId(ekEntity.getTechnician().getTechnicianId());
             return ekDTO;
         }).orElse(null);
     }

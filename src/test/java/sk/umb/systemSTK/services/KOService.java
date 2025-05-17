@@ -3,12 +3,10 @@ package sk.umb.systemSTK.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.umb.systemSTK.persistent.entity.KOEntity;
-import sk.umb.systemSTK.persistent.entity.TKEntity;
 import sk.umb.systemSTK.persistent.repository.KORepository;
 import sk.umb.systemSTK.persistent.repository.TechnicianRepository;
 import sk.umb.systemSTK.persistent.repository.UserRepository;
 import sk.umb.systemSTK.utils.KoDTO;
-import sk.umb.systemSTK.utils.TkDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +33,7 @@ public class KOService {
             koDTO.setDate(koEntity.getDate());
             koDTO.setControlType(koEntity.getControlType());
             koDTO.setCategory(koEntity.getCategory());
-            koDTO.setTechnicianId(koEntity.getIdOfTechnician().getTechnicianId());
+            koDTO.setTechnicianId(koEntity.getTechnician().getTechnicianId());
             koDTO.setPrice(koEntity.getPrice());
             allKo.add(koDTO);
         }
@@ -61,7 +59,7 @@ public class KOService {
             koDTO.setDate(koEntity.getDate());
             koDTO.setControlType(koEntity.getControlType());
             koDTO.setCategory(koEntity.getCategory());
-            koDTO.setTechnicianId(koEntity.getIdOfTechnician().getTechnicianId());
+            koDTO.setTechnicianId(koEntity.getTechnician().getTechnicianId());
             return koDTO;
         }).orElse(null);
     }

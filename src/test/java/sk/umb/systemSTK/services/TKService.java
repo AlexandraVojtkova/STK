@@ -2,12 +2,10 @@ package sk.umb.systemSTK.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sk.umb.systemSTK.persistent.entity.EKEntity;
 import sk.umb.systemSTK.persistent.entity.TKEntity;
 import sk.umb.systemSTK.persistent.repository.TKRepository;
 import sk.umb.systemSTK.persistent.repository.TechnicianRepository;
 import sk.umb.systemSTK.persistent.repository.UserRepository;
-import sk.umb.systemSTK.utils.EkDTO;
 import sk.umb.systemSTK.utils.TkDTO;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class TKService {
             tkDTO.setCategory(tkEntity.getCategory());
             tkDTO.setBrand(tkEntity.getBrand());
             tkDTO.setModel(tkEntity.getModel());
-            tkDTO.setTechnicianId(tkEntity.getIdOfTechnician().getTechnicianId());
+            tkDTO.setTechnicianId(tkEntity.getTechnician().getTechnicianId());
             tkDTO.setPrice(tkEntity.getPrice());
             allTk.add(tkDTO);
         }
@@ -78,24 +76,24 @@ public class TKService {
             tkDTO.setCategory(tkEntity.getCategory());
             tkDTO.setBrand(tkEntity.getBrand());
             tkDTO.setModel(tkEntity.getModel());
-            tkDTO.setTechnicianId(tkEntity.getIdOfTechnician().getTechnicianId());
+            tkDTO.setTechnicianId(tkEntity.getTechnician().getTechnicianId());
             return tkDTO;
         }).orElse(null);
     }
 
-    public void putTK(Long technicianId, TkDTO ekDTO) {
+    public void putTK(Long technicianId, TkDTO tkDTO) {
 
         TKEntity tkEntity = tkRepository.findById(technicianId).get();
         if (tkEntity != null) {
-            tkEntity.setVINTK(ekDTO.getId());
-            tkEntity.setDate(ekDTO.getDate());
-            tkEntity.setControlType(ekDTO.getControlType());
-            tkEntity.setEvaluationOfVehicle(ekDTO.getEvaluationOfVehicle());
-            tkEntity.setECV(ekDTO.getECV());
-            tkEntity.setCategory(ekDTO.getCategory());
-            tkEntity.setBrand(ekDTO.getBrand());
-            tkEntity.setModel(ekDTO.getModel());
-            tkEntity.setPrice(ekDTO.getPrice());
+            tkEntity.setVINTK(tkDTO.getId());
+            tkEntity.setDate(tkDTO.getDate());
+            tkEntity.setControlType(tkDTO.getControlType());
+            tkEntity.setEvaluationOfVehicle(tkDTO.getEvaluationOfVehicle());
+            tkEntity.setECV(tkDTO.getECV());
+            tkEntity.setCategory(tkDTO.getCategory());
+            tkEntity.setBrand(tkDTO.getBrand());
+            tkEntity.setModel(tkDTO.getModel());
+            tkEntity.setPrice(tkDTO.getPrice());
             tkRepository.save(tkEntity);
         }
     }
