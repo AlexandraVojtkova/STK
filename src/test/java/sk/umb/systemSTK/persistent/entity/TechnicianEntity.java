@@ -13,8 +13,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "lastName"})
+})
 public class TechnicianEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long technicianId;
 
     @Column(unique=true, nullable=false)
@@ -23,26 +27,19 @@ public class TechnicianEntity {
     @Column(unique=true, nullable=false)
     private String lastName;
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "technician")
     private List<EKEntity> ekList;
 
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "technician")
     private List<KOEntity> koList;
 
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "technician")
     private List<TKEntity> tkList;
 
     @ManyToOne
-    @JoinTable(
-            name = "techniciansOfStation",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "technicianId")
-    )
+    @JoinColumn(name = "userId", nullable = false)
     private UserEntity user;
 
 }

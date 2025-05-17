@@ -1,17 +1,15 @@
 package sk.umb.systemSTK.persistent.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @Getter
 @Setter
+@ToString(exclude = "technicians")
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity {
@@ -19,12 +17,12 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private Set<TechnicianEntity> technicians = new HashSet<TechnicianEntity>();
 }

@@ -17,19 +17,19 @@ public class KOEntity {
     @Id
     private String VINKO;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private Date date;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String controlType;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String category;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private TechnicianEntity idOfTechnician;
+    @JoinColumn(name = "technicianId", nullable = false)
+    private TechnicianEntity technician;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private Float price;
 }

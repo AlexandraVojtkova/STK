@@ -17,35 +17,35 @@ public class EKEntity {
     @Id
     private String VINEK;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private Date date;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String controlType;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String evaluationOfVehicle;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String ECV;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String category;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String brand;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String model;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private String systemOfEmissions;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private TechnicianEntity idOfTechnician;
+    @JoinColumn(name = "technicianId", nullable = false)
+    private TechnicianEntity technician;
 
-    @Column(unique=true)
+    @Column(nullable = false)
     private Float price;
 
 }
