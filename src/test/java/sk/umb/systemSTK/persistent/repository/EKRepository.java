@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import sk.umb.systemSTK.persistent.entity.EKEntity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface EKRepository extends JpaRepository<EKEntity, Long>, JpaSpecificationExecutor<EKEntity> {
@@ -24,7 +25,8 @@ public interface EKRepository extends JpaRepository<EKEntity, Long>, JpaSpecific
 
     Optional<EKEntity> findBySystemOfEmissions(String systemOfEmissions);
 
-    Optional<EKEntity> findByTechnicianId(Long technicianId);
+    List<EKEntity> findByTechnicianIdentifier_IdentifierAndTechnicianIdentifier_ControlType(String identifier, String controlType);
+
 
     Optional<EKEntity> findByPrice(int price);
 

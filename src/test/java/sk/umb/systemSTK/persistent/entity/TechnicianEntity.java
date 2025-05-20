@@ -27,16 +27,8 @@ public class TechnicianEntity {
     @Column(unique=true, nullable=false)
     private String lastName;
 
-    @OneToMany(mappedBy = "technician")
-    private List<EKEntity> ekList;
-
-
-    @OneToMany(mappedBy = "technician")
-    private List<KOEntity> koList;
-
-
-    @OneToMany(mappedBy = "technician")
-    private List<TKEntity> tkList;
+    @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL)
+    private List<TechnicianControlIdentificatorsEntity> identifiers;
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)

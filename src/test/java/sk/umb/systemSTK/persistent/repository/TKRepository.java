@@ -2,10 +2,10 @@ package sk.umb.systemSTK.persistent.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import sk.umb.systemSTK.persistent.entity.EKEntity;
 import sk.umb.systemSTK.persistent.entity.TKEntity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface TKRepository extends JpaRepository<TKEntity, Long>, JpaSpecificationExecutor<TKEntity> {
@@ -23,7 +23,8 @@ public interface TKRepository extends JpaRepository<TKEntity, Long>, JpaSpecific
 
     Optional<TKEntity> findByModel(String model);
 
-    Optional<TKEntity> findByTechnicianId(Long technicianId);
+    List<TKEntity> findByTechnicianIdentifier_IdentifierAndTechnicianIdentifier_ControlType(String identifier, String controlType);
+
 
     Optional<TKEntity> findByPrice(int price);
 }

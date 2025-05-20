@@ -42,8 +42,8 @@ public class EKEntity {
     private String systemOfEmissions;
 
     @ManyToOne
-    @JoinColumn(name = "technicianId", nullable = false)
-    private TechnicianEntity technician;
+    @JoinColumn(name = "technician_identifier_id", nullable = false)
+    private TechnicianControlIdentificatorsEntity technicianIdentifier;
 
     @Column(nullable = false)
     private Float price;

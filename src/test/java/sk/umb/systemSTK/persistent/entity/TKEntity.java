@@ -24,7 +24,7 @@ public class TKEntity {
     private String controlType;
 
     @Column(nullable = false)
-    private String EvaluationOfVehicle;
+    private String evaluationOfVehicle;
 
     @Column(nullable = false)
     private String ECV;
@@ -39,8 +39,8 @@ public class TKEntity {
     private String model;
 
     @ManyToOne
-    @JoinColumn(name = "technicianId", nullable = false)
-    private TechnicianEntity technician;
+    @JoinColumn(name = "technician_identifier_id", nullable = false)
+    private TechnicianControlIdentificatorsEntity technicianIdentifier;
 
     @Column(nullable = false)
     private Float price;

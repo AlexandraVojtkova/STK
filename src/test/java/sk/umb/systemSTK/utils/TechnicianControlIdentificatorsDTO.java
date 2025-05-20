@@ -4,17 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KoDTO {
-    String id;
-    Date date;
+public class TechnicianControlIdentificatorsDTO {
+    String identificator;
     String controlType;
-    String category;
-    String technicianIdentifier;
-    Float price;
 }

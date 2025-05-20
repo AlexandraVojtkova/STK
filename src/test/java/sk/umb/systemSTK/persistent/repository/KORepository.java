@@ -3,9 +3,9 @@ package sk.umb.systemSTK.persistent.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import sk.umb.systemSTK.persistent.entity.KOEntity;
-import sk.umb.systemSTK.persistent.entity.TKEntity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface KORepository extends JpaRepository<KOEntity, Long>, JpaSpecificationExecutor<KOEntity> {
@@ -15,7 +15,7 @@ public interface KORepository extends JpaRepository<KOEntity, Long>, JpaSpecific
 
     Optional<KOEntity> findByCategory(String category);
 
-    Optional<KOEntity> findByTechnicianId(Long technicianId);
+    List<KOEntity> findByTechnicianIdentifier_IdentifierAndTechnicianIdentifier_ControlType(String identifier, String controlType);
 
     Optional<KOEntity> findByPrice(int price);
 }

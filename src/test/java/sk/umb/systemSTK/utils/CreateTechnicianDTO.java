@@ -10,12 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TechnicianDTO {
-    Long id;
+public class CreateTechnicianDTO {
     String name;
     String lastName;
     List<TechnicianControlIdentificatorsDTO> identificators;
-    List<EkDTO> ekList;
-    List<TkDTO> tkList;
-    List<KoDTO> koList;
 }

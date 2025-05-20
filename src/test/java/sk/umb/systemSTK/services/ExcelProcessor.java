@@ -60,15 +60,15 @@ public class ExcelProcessor {
                 String brand = row.getCell(8).getStringCellValue();
                 String model = row.getCell(9).getStringCellValue();
                 String systemOfEmmission = row.getCell(10).getStringCellValue();
-                Long technicianId = null;
+                String technicianId = null;
                 String code = row.getCell(4).getStringCellValue().trim();
                 String[] parts = code.split("-");
 
                 if (parts.length > 1) {
-                    try {
-                        technicianId = Long.parseLong(parts[1]);
-                    } catch (NumberFormatException e) {
-                        System.err.println("Technician ID nie je číslo: " + parts[1]);
+                    if (parts[1].matches("\\d+")) { // kontroluje, že obsahuje len číslice
+                        technicianId = parts[1];
+                    } else {
+                        System.err.println("Technician ID nie je validné číslo: " + parts[1]);
                     }
                 }
                 Float price = null;
@@ -93,10 +93,10 @@ public class ExcelProcessor {
                 ekDTO.setBrand(brand);
                 ekDTO.setModel(model);
                 ekDTO.setSystemOfEmmission(systemOfEmmission);
-                ekDTO.setTechnicianId(technicianId);
+                ekDTO.setTechnicianIdentifier(technicianId);
                 ekDTO.setPrice(price);
 
-                this.ekService.putEK(technicianId, ekDTO);
+                this.ekService.createEK(ekDTO);
             }
 
         } catch (IOException e) {
@@ -134,18 +134,17 @@ public class ExcelProcessor {
                 String controlType = row.getCell(4).getStringCellValue();
                 String category = row.getCell(5).getStringCellValue();
 
-                Long technicianId = null;
+                String technicianId = null;
                 String rawCode = row.getCell(2).getCellType() == CellType.NUMERIC
                         ? String.valueOf((long) row.getCell(2).getNumericCellValue())  // číslo → string (bez .0)
                         : row.getCell(2).getStringCellValue().trim();
 
-                // zabezpeč, že máš dosť znakov
                 if (rawCode.length() >= 7) {
-                    String technicianCode = rawCode.substring(4, 7);  // znaky na pozícii 5–7
-                    try {
-                        technicianId = Long.parseLong(technicianCode);
-                    } catch (NumberFormatException e) {
-                        System.err.println("Technician ID nie je číslo: " + technicianCode);
+                    String technicianCode = rawCode.substring(4, 7);
+                    if (technicianCode.matches("\\d+")) {
+                        technicianId = technicianCode;
+                    } else {
+                        System.err.println("Technician ID nie je validné číslo: " + technicianCode);
                     }
                 }
 
@@ -166,10 +165,10 @@ public class ExcelProcessor {
                 koDTO.setDate(date);
                 koDTO.setControlType(controlType);
                 koDTO.setCategory(category);
-                koDTO.setTechnicianId(technicianId);
+                koDTO.setTechnicianIdentifier(technicianId);
                 koDTO.setPrice(price);
 
-                this.koService.putKO(technicianId, koDTO);
+                this.koService.createKO(koDTO);
             }
 
         } catch (IOException e) {
@@ -200,8 +199,7 @@ public class ExcelProcessor {
                 String[] protocolParts = protocolCode.split("-");
                 if (protocolParts.length < 2) continue;
 
-                String technicianIdPart = protocolParts[1];
-                Long technicianId = Long.parseLong(technicianIdPart);
+                String technicianId = protocolParts[1];
 
                 // Rozdelíme zvyšok riadku cez |, odstránime úvodzovky
                 String[] fields = remainingLine.split("\\|");
@@ -249,10 +247,10 @@ public class ExcelProcessor {
                 tkDTO.setCategory(category);
                 tkDTO.setBrand(brand);
                 tkDTO.setModel(model);
-                tkDTO.setTechnicianId(technicianId);
+                tkDTO.setTechnicianIdentifier(technicianId);
                 tkDTO.setPrice(price);
 
-                this.tkService.putTK(technicianId, tkDTO);
+                this.tkService.createTK(tkDTO);
 //                tkRepository.save(tkDTO);
             }
 
