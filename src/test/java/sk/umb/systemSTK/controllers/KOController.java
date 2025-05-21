@@ -22,23 +22,23 @@ public class KOController {
     public List<KoDTO> getAllKo() {
         return koService.getAllKo();
     }
-    @GetMapping("api/getKo/date")
+    @GetMapping("/api/getKo/date/{date}")
     public List<KoDTO> getKoDate(@RequestParam Date date) {
         return koService.getKOByCriteria(date, null, null,null);
     }
-    @GetMapping("api/getKo/controlType")
+    @GetMapping("/api/getKo/controlType/{controlType}")
     public List<KoDTO> getKoControlType(@RequestParam String controlType) {
         return koService.getKOByCriteria(null, controlType, null,null);
     }
-    @GetMapping("api/getKo/category")
+    @GetMapping("/api/getKo/category/{category}")
     public List<KoDTO> getKoCategory(@RequestParam String category) {
         return koService.getKOByCriteria(null, null, category, null);
     }
-    @GetMapping("api/getKo/technicianId")
+    @GetMapping("/api/getKo/technicianId/{technicianId}")
     public List<KoDTO> getKoTechnicianId(@RequestParam String technicianIdentifier) {
         return koService.getKOByCriteria(null, null, null, technicianIdentifier);
     }
-    @PostMapping("api/putKo/{koDTO}")
+    @PostMapping("/api/putKo/{koDTO}")
     public ResponseEntity<Void> putKO(KoDTO koDTO) {
         koService.createKO(koDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();

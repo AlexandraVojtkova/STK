@@ -20,12 +20,17 @@ public class TechnicianController {
     @Autowired
     ExcelProcessor processor;
 
-    @GetMapping("/search")
+    @GetMapping("/api/getAllTechnicians")
+    public ResponseEntity<List<CreateTechnicianDTO>> getAllTechnicians() {
+        List<CreateTechnicianDTO> technicians = technicianService.getAllTechnicians();
+        return ResponseEntity.ok(technicians);
+    }
+    @GetMapping("/api/search")
     public ResponseEntity<List<TechnicianDTO>> searchTechnicians(@RequestParam String term) {
         List<TechnicianDTO> results = technicianService.findByNameOrLastName(term);
         return ResponseEntity.ok(results);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/api/{id}")
     public ResponseEntity<CreateTechnicianDTO> getTechnicianById(@PathVariable Long id) {
         CreateTechnicianDTO technician = technicianService.findById(id);
         return ResponseEntity.ok(technician);
@@ -36,7 +41,7 @@ public class TechnicianController {
         Long technicianId = technicianService.createTechnician(createTechnicianDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(technicianId);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/api/{id}")
     public ResponseEntity<Void> updateTechnician(
             @PathVariable Long id,
             @RequestBody CreateTechnicianDTO updatedDTO
@@ -44,23 +49,23 @@ public class TechnicianController {
         technicianService.updateTechnician(id, updatedDTO);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/{id}")
     public ResponseEntity<Void> deleteTechnician(@PathVariable Long id) {
         technicianService.deleteTechnician(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("api/uploadData/ek")
+    @PostMapping("/api/uploadData/ek")
     public ResponseEntity<?> uploadExcelFileForEk(@RequestParam("file") MultipartFile file) {
         processor.processUploadedExcelFileForEk(file);
         return ResponseEntity.ok("Upload successful");
     }
-    @PostMapping("api/uploadData/tk")
+    @PostMapping("/api/uploadData/tk")
     public ResponseEntity<?> processUploadedPdfForTk(@RequestParam("file") MultipartFile file) {
         processor.processUploadedPdfForTk(file);
         return ResponseEntity.ok("Upload successful");
     }
-    @PostMapping("api/uploadData/ko")
+    @PostMapping("/api/uploadData/ko")
     public ResponseEntity<?> uploadExcelFileForKo(@RequestParam("file") MultipartFile file) {
         processor.processUploadedExcelFileForKo(file);
         return ResponseEntity.ok("Upload successful");
