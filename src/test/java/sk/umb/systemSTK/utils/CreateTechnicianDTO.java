@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTechnicianDTO {
+    Long id;
     String name;
     String lastName;
     List<TechnicianControlIdentificatorsDTO> identificators;
