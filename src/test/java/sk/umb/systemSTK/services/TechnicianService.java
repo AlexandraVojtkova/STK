@@ -11,6 +11,7 @@ import sk.umb.systemSTK.utils.CreateTechnicianDTO;
 import sk.umb.systemSTK.utils.TechnicianControlIdentificatorsDTO;
 import sk.umb.systemSTK.utils.TechnicianDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,32 @@ public class TechnicianService {
     private TechnicianRepository technicianRepository;
     @Autowired
     private Mappers mappers;
+
+    public List<CreateTechnicianDTO> getAllTechnicians() {
+        List<CreateTechnicianDTO> technicians = new ArrayList<>();
+
+        for (TechnicianEntity technician : technicianRepository.findAll()) {
+            CreateTechnicianDTO createTechnicianDTO = new CreateTechnicianDTO();
+            createTechnicianDTO.setName(technician.getName());
+            createTechnicianDTO.setLastName(technician.getLastName());
+
+            List<TechnicianControlIdentificatorsDTO> identificators = technician.getIdentifiers()
+                    .stream()
+                    .map(identifierEntity -> {
+                        TechnicianControlIdentificatorsDTO identDTO = new TechnicianControlIdentificatorsDTO();
+                        identDTO.setIdentificator(identifierEntity.getIdentifier());
+                        identDTO.setControlType(identifierEntity.getControlType());
+                        return identDTO;
+                    })
+                    .toList();
+
+            createTechnicianDTO.setIdentificators(identificators);
+
+            technicians.add(createTechnicianDTO);
+        }
+
+        return technicians;
+    }
 
     public Long createTechnician(CreateTechnicianDTO createDTO) {
         TechnicianEntity technician = new TechnicianEntity();
