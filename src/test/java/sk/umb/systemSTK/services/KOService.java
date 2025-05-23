@@ -44,6 +44,25 @@ public class KOService {
         return allKo;
     }
 
+    public List<KoDTO> getKoByVIN(String vin) {
+        List<KoDTO> listKoDTO = new ArrayList<>();
+        for (KOEntity koEntity : koRepository.findByVINKO(vin)) {
+            KoDTO koDTO = new KoDTO();
+            koDTO.setId(koEntity.getVINKO());
+            koDTO.setDate(koEntity.getDate());
+            koDTO.setControlType(koEntity.getControlType());
+            koDTO.setCategory(koEntity.getCategory());
+            if (koEntity.getTechnicianIdentifier() != null) {
+                koDTO.setTechnicianIdentifier(koEntity.getTechnicianIdentifier().getIdentifier());
+            } else {
+                koDTO.setTechnicianIdentifier(null);
+            }
+            koDTO.setPrice(koEntity.getPrice());
+            listKoDTO.add(koDTO);
+        }
+        return listKoDTO;
+    }
+
     public List<KoDTO> getKOByCriteria(Date date, String controlType, String category, String technicianIdentifier) {
         List<KOEntity> results;
 

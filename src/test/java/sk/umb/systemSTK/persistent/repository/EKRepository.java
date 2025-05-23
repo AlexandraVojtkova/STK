@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EKRepository extends JpaRepository<EKEntity, Long>, JpaSpecificationExecutor<EKEntity> {
+    List<EKEntity> findByVINEK(String vin);
+
     Optional<EKEntity> findByDate(Date date);
 
     Optional<EKEntity> findByControlType(String controlType);

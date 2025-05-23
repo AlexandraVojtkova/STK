@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.umb.systemSTK.persistent.entity.EKEntity;
 import sk.umb.systemSTK.persistent.entity.TechnicianControlIdentificatorsEntity;
-import sk.umb.systemSTK.persistent.repository.EKRepository;
-import sk.umb.systemSTK.persistent.repository.TechnicianControlIdentificatorsRepository;
-import sk.umb.systemSTK.persistent.repository.UserRepository;
+import sk.umb.systemSTK.persistent.entity.TechnicianEntity;
+import sk.umb.systemSTK.persistent.repository.*;
 import sk.umb.systemSTK.utils.EkDTO;
 
 import java.util.*;
@@ -16,6 +15,9 @@ import java.util.stream.Collectors;
 public class EKService {
     @Autowired
     private EKRepository ekRepository;
+
+    @Autowired
+    private TechnicianRepository technicianRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -46,6 +48,30 @@ public class EKService {
             allEk.add(ekDTO);
         }
         return allEk;
+    }
+
+    public List<EkDTO> getEkByVIN(String vin) {
+        List<EkDTO> ekDTOList = new ArrayList<>();
+        for (EKEntity ekEntity : ekRepository.findByVINEK(vin)) {
+            EkDTO ekDTO = new EkDTO();
+            ekDTO.setId(ekEntity.getVINEK());
+            ekDTO.setDate(ekEntity.getDate());
+            ekDTO.setControlType(ekEntity.getControlType());
+            ekDTO.setEvaluationOfVehicle(ekEntity.getEvaluationOfVehicle());
+            ekDTO.setECV(ekEntity.getECV());
+            ekDTO.setCategory(ekEntity.getCategory());
+            ekDTO.setBrand(ekEntity.getBrand());
+            ekDTO.setModel(ekEntity.getModel());
+            ekDTO.setSystemOfEmmission(ekEntity.getSystemOfEmissions());
+            if (ekEntity.getTechnicianIdentifier() != null) {
+                ekDTO.setTechnicianIdentifier(ekEntity.getTechnicianIdentifier().getIdentifier());
+            } else {
+                ekDTO.setTechnicianIdentifier(null);
+            }
+            ekDTO.setPrice(ekEntity.getPrice());
+            ekDTOList.add(ekDTO);
+        }
+        return ekDTOList;
     }
 
     public List<EkDTO> getEKByCriteria(Date date, String controlType, String evaluationOfVehicle, String ECV, String category, String brand, String model, String systemOfEmmission, String technicianIdentifier) {
@@ -141,15 +167,19 @@ public class EKService {
         ekEntity.setSystemOfEmissions(ekDTO.getSystemOfEmmission());
         ekEntity.setPrice(ekDTO.getPrice());
 
+        if (ekDTO.getTechnicianIdentifier() == null) {
+            System.out.println("Záznam preskočený");
+            return;
+        }
         TechnicianControlIdentificatorsEntity technicianIdentifier =
                 technicianControlIdentificatorsRepository
                         .findByIdentifier(ekDTO.getTechnicianIdentifier())
                         .orElseThrow(() -> new RuntimeException("Technician identifier not found: " + ekDTO.getTechnicianIdentifier()));
-
         ekEntity.setTechnicianIdentifier(technicianIdentifier);
 
         ekRepository.save(ekEntity);
     }
+
 
 
 }

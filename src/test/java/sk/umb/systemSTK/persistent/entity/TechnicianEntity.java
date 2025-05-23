@@ -31,7 +31,7 @@ public class TechnicianEntity {
     private List<TechnicianControlIdentificatorsEntity> identifiers;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "userId", nullable = true)
     private UserEntity user;
 
 }

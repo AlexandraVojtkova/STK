@@ -12,6 +12,7 @@ import sk.umb.systemSTK.utils.TechnicianDTO;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class TechnicianController {
     @Autowired
@@ -25,23 +26,23 @@ public class TechnicianController {
         List<CreateTechnicianDTO> technicians = technicianService.getAllTechnicians();
         return ResponseEntity.ok(technicians);
     }
-    @GetMapping("/api/search")
+    @GetMapping("/api/search?term={term}")
     public ResponseEntity<List<TechnicianDTO>> searchTechnicians(@RequestParam String term) {
         List<TechnicianDTO> results = technicianService.findByNameOrLastName(term);
         return ResponseEntity.ok(results);
     }
-    @GetMapping("/api/{id}")
+    @GetMapping("/api/findById/{id}")
     public ResponseEntity<CreateTechnicianDTO> getTechnicianById(@PathVariable Long id) {
         CreateTechnicianDTO technician = technicianService.findById(id);
         return ResponseEntity.ok(technician);
     }
     @PostMapping("/api/createTechnician")
     public ResponseEntity<Long> createTechnician(@RequestBody CreateTechnicianDTO createTechnicianDTO) {
-        technicianService.createTechnician(createTechnicianDTO);
+//        technicianService.createTechnician(createTechnicianDTO);
         Long technicianId = technicianService.createTechnician(createTechnicianDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(technicianId);
     }
-    @PutMapping("/api/{id}")
+    @PutMapping("/api/update/{id}")
     public ResponseEntity<Void> updateTechnician(
             @PathVariable Long id,
             @RequestBody CreateTechnicianDTO updatedDTO
@@ -49,7 +50,7 @@ public class TechnicianController {
         technicianService.updateTechnician(id, updatedDTO);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/api/{id}")
+    @DeleteMapping("/api/delete/{id}")
     public ResponseEntity<Void> deleteTechnician(@PathVariable Long id) {
         technicianService.deleteTechnician(id);
         return ResponseEntity.noContent().build();

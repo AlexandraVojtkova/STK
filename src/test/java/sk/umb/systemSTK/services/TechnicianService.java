@@ -12,7 +12,9 @@ import sk.umb.systemSTK.utils.TechnicianControlIdentificatorsDTO;
 import sk.umb.systemSTK.utils.TechnicianDTO;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,7 @@ public class TechnicianService {
 
         for (TechnicianEntity technician : technicianRepository.findAll()) {
             CreateTechnicianDTO createTechnicianDTO = new CreateTechnicianDTO();
+            createTechnicianDTO.setId(technician.getTechnicianId());
             createTechnicianDTO.setName(technician.getName());
             createTechnicianDTO.setLastName(technician.getLastName());
 
@@ -54,7 +57,7 @@ public class TechnicianService {
         technician.setLastName(createDTO.getLastName());
 
         // uložíme technika najskôr (aby mal ID)
-        technicianRepository.save(technician);
+//        technicianRepository.save(technician);
 
         // pridáme identifikátory
         List<TechnicianControlIdentificatorsEntity> identifiers = createDTO.getIdentificators().stream()
@@ -118,21 +121,41 @@ public class TechnicianService {
         technician.setLastName(updatedDTO.getLastName());
 
         if (updatedDTO.getIdentificators() != null) {
-            for (TechnicianControlIdentificatorsDTO identifierDTO : updatedDTO.getIdentificators()) {
-                boolean alreadyExists = technician.getIdentifiers().stream()
-                        .anyMatch(existing -> existing.getIdentifier().equals(identifierDTO.getIdentificator())
-                                && existing.getControlType().equals(identifierDTO.getControlType()));
-                if (!alreadyExists) {
-                    TechnicianControlIdentificatorsEntity newIdent = new TechnicianControlIdentificatorsEntity();
-                    newIdent.setIdentifier(identifierDTO.getIdentificator());
-                    newIdent.setControlType(identifierDTO.getControlType());
-                    newIdent.setTechnician(technician);
-                    technician.getIdentifiers().add(newIdent);
+            // Mapovanie nových identifikátorov podľa controlType
+            Map<String, String> newIdentMap = updatedDTO.getIdentificators().stream()
+                    .collect(Collectors.toMap(TechnicianControlIdentificatorsDTO::getControlType,
+                            TechnicianControlIdentificatorsDTO::getIdentificator));
+
+            // Aktualizácia alebo odstránenie existujúcich identifikátorov
+            Iterator<TechnicianControlIdentificatorsEntity> iterator = technician.getIdentifiers().iterator();
+            while (iterator.hasNext()) {
+                TechnicianControlIdentificatorsEntity existing = iterator.next();
+                String controlType = existing.getControlType();
+                if (newIdentMap.containsKey(controlType)) {
+                    // Aktualizuj, ak je nový identifikátor iný
+                    String newIdent = newIdentMap.get(controlType);
+                    if (!existing.getIdentifier().equals(newIdent)) {
+                        existing.setIdentifier(newIdent);
+                    }
+                    newIdentMap.remove(controlType); // už sme spracovali
+                } else {
+                    // Odstráň, ak už neexistuje
+                    iterator.remove();
                 }
+            }
+
+            // Pridaj nové identifikátory, ktoré neexistovali
+            for (Map.Entry<String, String> entry : newIdentMap.entrySet()) {
+                TechnicianControlIdentificatorsEntity newEntity = new TechnicianControlIdentificatorsEntity();
+                newEntity.setTechnician(technician);
+                newEntity.setControlType(entry.getKey());
+                newEntity.setIdentifier(entry.getValue());
+                technician.getIdentifiers().add(newEntity);
             }
         }
 
         technicianRepository.save(technician);
     }
+
 
 }

@@ -50,6 +50,29 @@ public class TKService {
         return allTk;
     }
 
+    public List<TkDTO> getTkByVIN(String vin) {
+        List<TkDTO> listTkDTO = new ArrayList<>();
+        for (TKEntity tkEntity : tkRepository.findByVINTK(vin)) {
+            TkDTO tkDTO = new TkDTO();
+            tkDTO.setId(tkEntity.getVINTK());
+            tkDTO.setDate(tkEntity.getDate());
+            tkDTO.setControlType(tkEntity.getControlType());
+            tkDTO.setEvaluationOfVehicle(tkEntity.getEvaluationOfVehicle());
+            tkDTO.setECV(tkEntity.getECV());
+            tkDTO.setCategory(tkEntity.getCategory());
+            tkDTO.setBrand(tkEntity.getBrand());
+            tkDTO.setModel(tkEntity.getModel());
+            if (tkEntity.getTechnicianIdentifier() != null) {
+                tkDTO.setTechnicianIdentifier(tkEntity.getTechnicianIdentifier().getIdentifier());
+            } else {
+                tkDTO.setTechnicianIdentifier(null);
+            }
+            tkDTO.setPrice(tkEntity.getPrice());
+            listTkDTO.add(tkDTO);
+        }
+        return listTkDTO;
+    }
+
     public List<TkDTO> getTKByCriteria(Date date, String controlType, String evaluationOfVehicle, String ECV, String category, String brand, String model, String technicianIdentifier) {
         List<TKEntity> results;
 

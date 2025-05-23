@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TKRepository extends JpaRepository<TKEntity, Long>, JpaSpecificationExecutor<TKEntity> {
+
+    List<TKEntity> findByVINTK(String vintKey);
+
     Optional<TKEntity> findByDate(Date date);
 
     Optional<TKEntity> findByControlType(String controlType);

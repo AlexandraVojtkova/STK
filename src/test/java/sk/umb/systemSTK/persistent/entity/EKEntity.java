@@ -38,11 +38,11 @@ public class EKEntity {
     @Column(nullable = false)
     private String model;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String systemOfEmissions;
 
     @ManyToOne
-    @JoinColumn(name = "technician_identifier_id", nullable = false)
+    @JoinColumn(name = "technician_identifier_id", nullable = true)
     private TechnicianControlIdentificatorsEntity technicianIdentifier;
 
     @Column(nullable = false)

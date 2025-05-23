@@ -59,7 +59,17 @@ public class ExcelProcessor {
                 String category = row.getCell(7).getStringCellValue();
                 String brand = row.getCell(8).getStringCellValue();
                 String model = row.getCell(9).getStringCellValue();
-                String systemOfEmmission = row.getCell(10).getStringCellValue();
+                Cell cell = row.getCell(10);
+                String systemOfEmmission = "nedefinovane";
+                if (cell != null && cell.getCellType() != CellType.BLANK) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        String value = cell.getStringCellValue();
+                        if (value != null && !value.trim().isEmpty()) {
+                            systemOfEmmission = value.trim();
+                        }
+                    }
+                }
+
                 String technicianId = null;
                 String code = row.getCell(4).getStringCellValue().trim();
                 String[] parts = code.split("-");
@@ -114,22 +124,31 @@ public class ExcelProcessor {
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) continue; // Skip header
 
-                String vin = row.getCell(6).getStringCellValue();
+                String vin = row.getCell(7).getStringCellValue();
 
                 Date date = null;
-                if (row.getCell(3).getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(row.getCell(3))) {
-                    // Ak je to reálny dátum (číselný typ + formátovaný ako dátum)
-                    date = row.getCell(3).getDateCellValue();
-                } else if (row.getCell(3).getCellType() == CellType.STRING) {
-                    // Ak je to textový reťazec
-                    String dateStr = row.getCell(3).getStringCellValue().trim();
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-                        date = sdf.parse(dateStr);
-                    } catch (ParseException e) {
-                        System.err.println("Nesprávny formát dátumu: " + dateStr);
+                Cell cell = row.getCell(3);
+
+                if (cell != null) {
+                    if (cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
+                        // Ak je to reálny dátum (číselný typ + formátovaný ako dátum)
+                        date = cell.getDateCellValue();
+                    } else if (cell.getCellType() == CellType.STRING) {
+                        // Ak je to textový reťazec
+                        String dateStr = cell.getStringCellValue().trim();
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                            date = sdf.parse(dateStr);
+                        } catch (ParseException e) {
+                            System.err.println("Nesprávny formát dátumu: " + dateStr);
+                        }
+                    } else {
+                        System.err.println("Bunka obsahuje neočakávaný typ alebo prázdnu hodnotu.");
                     }
+                } else {
+                    System.err.println("Bunka v stĺpci 3 je prázdna (null).");
                 }
+
 
                 String controlType = row.getCell(4).getStringCellValue();
                 String category = row.getCell(5).getStringCellValue();

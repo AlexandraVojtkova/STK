@@ -13,22 +13,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"identifier"})
-})
+@Table(name = "technician_control_identificators_entity",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"identifier", "control_type"}))
 public class TechnicianControlIdentificatorsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String identifier;
 
     @Column(nullable = false)
     private String controlType;
 
     @ManyToOne
-    @JoinColumn(name = "technician_id", nullable = false)
+    @JoinColumn(name = "technician_id", nullable = true)
     private TechnicianEntity technician;
 
     @OneToMany(mappedBy = "technicianIdentifier")

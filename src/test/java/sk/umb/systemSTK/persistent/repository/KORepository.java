@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KORepository extends JpaRepository<KOEntity, Long>, JpaSpecificationExecutor<KOEntity> {
+    List<KOEntity> findByVINKO(String vin);
+
     Optional<KOEntity> findByDate(Date date);
 
     Optional<KOEntity> findByControlType(String controlType);
